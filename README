@@ -1,0 +1,21 @@
+* これはなに？
+  howm の予定(@!)を通知する仕組みを提供します。
+
+* 使い方
+  - .emacs に以下のように書きます
+    : (require 'howm-notify-schedule)
+    : (howm-notify-schedule-start)
+  - デフォルトでは、予定の 5 分前になったらエコーエリアに予定を表示する関数が登録されています
+  - 通知の際に呼ばれる関数は、例えば以下のように設定します
+    : ;;; growl-notify については http://d.hatena.ne.jp/yuto_sasaki/20120412/1334205110
+    : (defun howm-notify-schedule-growl (title time)
+    :  (growl-notify
+    :   (format "%s(%d 分前)" howm-notify-title howm-notify-before-min)
+    :   (format "%s %s"
+    :           (format-time-string
+    :            "%H:%M"
+    :            (apply 'encode-time time))
+    :           title)))
+    :
+    : (setq howm-notify-schedule-function-list '(howm-notify-schedule-growl))
+
